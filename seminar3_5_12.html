@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>第3回 特別集中講座 実行案 ｜ 5/12（火）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F1E36; --navy-mid:#1A2E50; --navy-deep:#0A1628;
+    --gold:#d4a843; --gold-light:#e8c668; --gold-deep:#b8902e;
+    --silver:#C4D8EC; --silver-pale:#EEF4FA; --silver-dark:#6A8FAA;
+    --white:#fff; --off:#F4F7FB;
+    --text:#0D1A2E; --muted:rgba(255,255,255,0.65);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--navy-deep);color:var(--text);font-family:'Noto Sans JP','Hiragino Sans','Meiryo UI',sans-serif;overflow:hidden}
+  body{display:flex;flex-direction:column}
+
+  /* deck */
+  .deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+  .slide{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    padding:32px 56px;opacity:0;transform:translateX(40px);
+    transition:opacity .45s ease,transform .45s ease;pointer-events:none;
+    background:linear-gradient(160deg,#0F1E36 0%,#162C4F 50%,#0A1628 100%);
+    color:#fff;overflow-y:auto;
+  }
+  .slide.active{opacity:1;transform:translateX(0);pointer-events:auto}
+  .slide.light{background:linear-gradient(160deg,#F8FAFD 0%,#EEF4FA 50%,#E0EAF5 100%);color:var(--text)}
+
+  /* hero/title */
+  .slide-hero{justify-content:center;align-items:center;text-align:center;background:radial-gradient(ellipse at center,#1A2E50 0%,#0A1628 70%)}
+  .badge-top{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border:1px solid rgba(212,168,67,0.5);border-radius:30px;color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.2em;margin-bottom:30px}
+  .badge-top::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+  .hero-title{font-family:'Noto Serif JP',serif;font-size:72px;font-weight:900;line-height:1.2;margin-bottom:20px}
+  .hero-title .gold{color:var(--gold)}
+  .hero-sub{font-size:22px;color:var(--silver);font-weight:500;margin-bottom:40px;letter-spacing:.05em}
+  .hero-meta{display:flex;gap:40px;justify-content:center;align-items:center;font-size:18px;color:rgba(255,255,255,.85)}
+  .hero-meta .item{display:flex;align-items:center;gap:10px}
+  .hero-meta .lbl{color:var(--gold);font-weight:700;font-size:14px;letter-spacing:.1em}
+
+  /* generic */
+  .slide-num{position:absolute;top:24px;right:32px;font-size:12px;color:rgba(255,255,255,.4);letter-spacing:.2em;font-weight:700}
+  .slide.light .slide-num{color:rgba(13,26,46,.4)}
+  .section-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3em;color:var(--gold);margin-bottom:12px;text-transform:uppercase}
+  h2.title{font-family:'Noto Serif JP',serif;font-size:34px;font-weight:900;line-height:1.3;margin-bottom:4px}
+  h2.title .gold{color:var(--gold)}
+  .gold-line{width:48px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin:8px 0 14px}
+  .lead{font-size:17px;color:rgba(255,255,255,.78);line-height:1.8;margin-bottom:30px;max-width:900px}
+  .slide.light .lead{color:rgba(13,26,46,.78)}
+
+  /* key big number */
+  .big-stat{font-family:'Noto Serif JP',serif;font-size:120px;font-weight:900;color:var(--gold);line-height:1;letter-spacing:-.02em}
+  .big-stat .unit{font-size:36px;color:rgba(255,255,255,.7);font-weight:500;margin-left:8px}
+
+  /* card grids */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:24px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:24px}
+  .card{background:rgba(255,255,255,.05);border:1px solid rgba(212,168,67,.25);border-radius:14px;padding:24px;backdrop-filter:blur(8px)}
+  .card.gold{background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.05));border-color:rgba(212,168,67,.5)}
+  .card.dark{background:rgba(10,22,40,.55)}
+  .slide.light .card{background:rgba(255,255,255,.7);border-color:rgba(212,168,67,.3);box-shadow:0 4px 20px rgba(15,30,54,.08)}
+  .card .num{font-size:14px;color:var(--gold);font-weight:700;letter-spacing:.15em;margin-bottom:10px}
+  .card h3{font-size:20px;font-weight:700;margin-bottom:12px;line-height:1.4}
+  .card p{font-size:14px;line-height:1.7;color:rgba(255,255,255,.78)}
+  .slide.light .card p{color:rgba(13,26,46,.75)}
+
+  /* timeline table */
+  .timeline{background:rgba(0,0,0,.25);border:1px solid rgba(212,168,67,.2);border-radius:12px;padding:0;overflow:hidden;margin-top:8px}
+  .timeline-row{display:grid;grid-template-columns:100px 50px 1fr 180px;align-items:center;padding:5px 18px;border-bottom:1px solid rgba(255,255,255,.08);transition:background .2s}
+  .timeline-row:last-child{border-bottom:none}
+  .timeline-row:hover{background:rgba(212,168,67,.06)}
+  .timeline-row.head{background:rgba(212,168,67,.15);font-size:10px;color:var(--gold);font-weight:700;letter-spacing:.1em;padding:6px 18px}
+  .timeline-row.highlight{background:rgba(212,168,67,.12);border-left:4px solid var(--gold)}
+  .tl-time{font-family:'Noto Serif JP',serif;font-size:15px;font-weight:700;color:var(--gold-light)}
+  .timeline-row.head .tl-time{font-size:10px;color:var(--gold);font-family:inherit}
+  .tl-min{font-size:11px;color:rgba(255,255,255,.6)}
+  .tl-content{font-size:13px;line-height:1.4}
+  .tl-content .sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px}
+  .tl-speaker{font-size:11px;color:var(--silver);text-align:right}
+  .tl-speaker .role{font-size:9px;color:rgba(255,255,255,.5);display:block;margin-top:0px}
+
+  /* speaker chips */
+  .speakers{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}
+  .speaker{display:flex;align-items:center;gap:12px;padding:14px 22px;background:rgba(255,255,255,.06);border:1px solid rgba(212,168,67,.3);border-radius:60px}
+  .speaker .icon{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px}
+  .speaker .name{font-size:16px;font-weight:700}
+  .speaker .role{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
+
+  /* checklist */
+  .check{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+  .check .icon{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#0F1E36;font-weight:900;font-size:14px;margin-top:2px}
+  .check .txt{font-size:15px;line-height:1.6}
+
+  /* rebrand box */
+  .rebrand-box{position:relative;background:linear-gradient(135deg,#162C4F,#0A1628);border:2px solid var(--gold);border-radius:18px;padding:40px;margin:24px auto;max-width:1000px;text-align:center;overflow:hidden}
+  .rebrand-box::before{content:"";position:absolute;inset:-1px;background:linear-gradient(135deg,transparent,rgba(212,168,67,.3),transparent);pointer-events:none}
+  .rb-old{font-size:30px;color:rgba(255,255,255,.55);font-weight:600;text-decoration:line-through;text-decoration-color:rgba(255,100,100,.6);letter-spacing:.05em}
+  .rb-arrow{font-size:36px;color:var(--gold);margin:18px 0}
+  .rb-new{font-family:'Noto Serif JP',serif;font-size:56px;color:var(--gold);font-weight:900;letter-spacing:.04em;line-height:1.2}
+  .rb-tag{margin-top:16px;font-size:16px;color:var(--silver);letter-spacing:.1em}
+
+  /* nav */
+  .nav{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;padding:10px 20px;background:rgba(10,22,40,.85);border:1px solid rgba(212,168,67,.3);border-radius:30px;backdrop-filter:blur(10px);z-index:100}
+  .nav button{background:transparent;border:none;color:#fff;cursor:pointer;font-size:16px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
+  .nav button:hover{background:rgba(212,168,67,.25)}
+  .nav .counter{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.05em;min-width:60px;text-align:center}
+
+  /* progress */
+  .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));z-index:99;transition:width .3s ease}
+
+  /* utility */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:flex-start}
+  .col-list{margin-top:16px}
+  .col-list li{list-style:none;padding:10px 0;padding-left:28px;position:relative;font-size:15px;line-height:1.6;border-bottom:1px dashed rgba(255,255,255,.1)}
+  .col-list li::before{content:"▸";position:absolute;left:0;color:var(--gold);font-weight:900}
+  .slide.light .col-list li{border-bottom-color:rgba(13,26,46,.1)}
+
+  /* persona / outcome */
+  .arrow-row{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;margin-top:30px}
+  .arrow-cell{padding:24px;border-radius:14px;text-align:center}
+  .arrow-cell.before{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15)}
+  .arrow-cell.after{background:linear-gradient(135deg,rgba(212,168,67,.2),rgba(212,168,67,.05));border:1px solid var(--gold)}
+  .arrow-cell .lbl{font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:10px}
+  .arrow-cell.after .lbl{color:var(--gold)}
+  .arrow-cell .val{font-size:22px;font-weight:700;line-height:1.4}
+  .arrow{font-size:32px;color:var(--gold)}
+
+  /* QA tag */
+  .qa-tag{display:inline-block;padding:4px 10px;background:var(--gold);color:#0F1E36;border-radius:4px;font-size:11px;font-weight:900;letter-spacing:.1em;margin-right:8px;vertical-align:middle}
+
+  /* announcement card */
+  .announce{background:linear-gradient(135deg,#1A2E50,#0F1E36);border:1px solid var(--gold);border-radius:14px;padding:30px;margin-top:24px}
+  .announce .when{font-family:'Noto Serif JP',serif;font-size:36px;color:var(--gold);font-weight:900}
+  .announce .what{font-size:22px;font-weight:700;margin:8px 0 16px}
+  .announce .desc{font-size:15px;line-height:1.7;color:rgba(255,255,255,.78)}
+
+  /* print */
+  @media print{
+    body,.deck{height:auto;overflow:visible}
+    .slide{position:relative;opacity:1!important;transform:none!important;pointer-events:auto;page-break-after:always;height:100vh}
+    .nav,.progress{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+<!-- 1: COVER -->
+<section class="slide slide-hero active">
+  <div class="badge-top">SPECIAL INTENSIVE COURSE ｜ SESSION 03</div>
+  <h1 class="hero-title">視座の<span class="gold">転換</span></h1>
+  <p class="hero-sub">AI時代の収益型ワークシフト完全設計</p>
+  <div class="hero-meta">
+    <div class="item"><span class="lbl">DATE</span> 2026.5.12（火）</div>
+    <div class="item"><span class="lbl">TIME</span> 18:00 – 20:00</div>
+    <div class="item"><span class="lbl">VENUE</span> Online（Zoom）</div>
+  </div>
+  <div style="margin-top:60px;font-size:13px;color:rgba(255,255,255,.4);letter-spacing:.2em">税理士AI大学サロン ｜ 内部実行案</div>
+</section>
+
+<!-- 2: 本日のゴール -->
+<section class="slide">
+  <div class="slide-num">02</div>
+  <span class="section-tag">Today's Goal</span>
+  <h2 class="title">本日3つの<span class="gold">ゴール</span></h2>
+  <div class="gold-line"></div>
+  <p class="lead">「AIを使える」段階の先にある景色を共有し、サロン会員様一人ひとりの<strong>次の3週間〜3ヶ月の動き方</strong>を確定させます。同時に、私たちサロン側の今後の方針を率直にお伝えする回でもあります。</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="num">GOAL 01</div>
+      <h3>「AIで稼ぐ設計」が腹落ちしている</h3>
+      <p>AIで生まれた時間を、節税・金融・財務コンサルへ転用する3層モデルを、自分の事務所に当てはめてイメージできる状態へ。</p>
+    </div>
+    <div class="card gold">
+      <div class="num">GOAL 02</div>
+      <h3>サロンの新しい姿を共有する</h3>
+      <p>「税理士AI大学サロン」から「税理士ワークシフトサロン」へ。リブランドの背景と、会員様にとっての変化点を率直にお伝えする。</p>
+    </div>
+    <div class="card">
+      <div class="num">GOAL 03</div>
+      <h3>次のステージへ進む覚悟が整う</h3>
+      <p>5/25（詳細説明会）と6月以降のワークシフト講座への接続を明確化。「ここで終わり」ではなく「ここからが始まり」の合意。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3: アジェンダ -->
+<section class="slide">
+  <div class="slide-num">03</div>
+  <span class="section-tag">Agenda</span>
+  <h2 class="title">本日の<span class="gold">流れ</span> ｜ 120分</h2>
+  <div class="gold-line"></div>
+
+  <div class="timeline">
+    <div class="timeline-row head">
+      <div class="tl-time">時刻</div>
+      <div class="tl-min">時間</div>
+      <div class="tl-content">セッション</div>
+      <div class="tl-speaker">登壇</div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-time">18:00</div>
+      <div class="tl-min">5分</div>
+      <div class="tl-content">オープニング・本日のゴール共有<div class="sub">3週間の道のりを一言でフレーミング</div></div>
+      <div class="tl-speaker">倉岡<span class="role">MC・進行</span></div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-time">18:05</div>
+      <div class="tl-min">10分</div>
+      <div class="tl-content">冒頭あいさつ<div class="sub">3週間ご一緒した会員様への感謝と、本日の意気込み</div></div>
+      <div class="tl-speaker">木下学長<span class="role">＋ 佐藤尚功</span></div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-time">18:15</div>
+      <div class="tl-min">15分</div>
+      <div class="tl-content">第1回・第2回の振り返り＋第2回宿題の成果発表<div class="sub">会員様の変化シェア／Slack投稿・宿題のリアルな声</div></div>
+      <div class="tl-speaker">佐々木達也<span class="role">講師</span></div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-time">18:30</div>
+      <div class="tl-min">20分</div>
+      <div class="tl-content">①最新のAI活用事例とその活用方法<div class="sub">最前線の事例を素材に「自分にもできる」に変える</div></div>
+      <div class="tl-speaker">佐藤尚功<span class="role">AI統括ディレクター＆特任講師</span></div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-time">18:50</div>
+      <div class="tl-min">20分</div>
+      <div class="tl-content">②自分の業務に活かす想像をするクリエイティブWS<div class="sub">「自分の事務所×AI×顧問先1社」を実名で書き出す</div></div>
+      <div class="tl-speaker">佐藤尚功</div>
+    </div>
+    <div class="timeline-row highlight">
+      <div class="tl-time">19:10</div>
+      <div class="tl-min">20分</div>
+      <div class="tl-content">③<strong style="color:var(--gold)">"AIに変わられる前に、私たちが変わる"</strong> ─ 視座の転換<div class="sub">大失業時代の現実認識／浮いた時間で新たな価値創造／3フェーズ・ロードマップ／"繋ぐだけ"から始める4つの提案／日本最大の財務コンサル集団へ</div></div>
+      <div class="tl-speaker">佐藤尚功<span class="role">＋ 木下学長（補助）</span></div>
+    </div>
+    <div class="timeline-row highlight">
+      <div class="tl-time">19:30</div>
+      <div class="tl-min">20分</div>
+      <div class="tl-content">★ <strong style="color:var(--gold)">リブランド予告＋今後の活動の流れ</strong>（仮）<div class="sub">税理士AI大学サロン → 税理士ワークシフトサロン／既存会員5つの約束／ワークシフト講座／一言オファー（=紹介機会）／リブランド説明会（仮：5/25）案内</div></div>
+      <div class="tl-speaker">木下学長 ＋ 佐藤尚功 ＋ 倉岡<span class="role">3名</span></div>
+    </div>
+    <div class="timeline-row">
+      <div class="tl-time">19:50</div>
+      <div class="tl-min">10分</div>
+      <div class="tl-content">クロージング<div class="sub">「ここからが始まり」の合意形成／質問はSlackで継続受付ご案内</div></div>
+      <div class="tl-speaker">木下学長 ＋ 佐藤尚功 ＋ 倉岡<span class="role">3名</span></div>
+    </div>
+  </div>
+
+  <p style="margin-top:14px;font-size:12px;color:rgba(255,255,255,.55);text-align:right">※ ライブQ&A時間は今回設けず、Slackで継続受付・後日Notion で「Q&Aまとめ」公開。「<span style="color:var(--gold)">仮</span>」表記は、登壇者間の詳細打ち合わせをセミナー後に実施予定のため。</p>
+</section>
+
+<!-- 4: 登壇陣 -->
+<section class="slide">
+  <div class="slide-num">04</div>
+  <span class="section-tag">Speakers</span>
+  <h2 class="title">本日の<span class="gold">登壇者</span></h2>
+  <div class="gold-line"></div>
+  <p class="lead">4名で役割を明確に分け、メッセージの一貫性を保ちます。第1回・第2回を担当した佐々木講師から会員様の3週間の変化を共有、佐藤尚功（AI統括ディレクター＆特任講師）がワークショップとオファー、木下学長がコアメッセージを語る構成です。</p>
+
+  <div class="grid-2">
+    <div class="card gold">
+      <div class="num">SPEAKER ｜ 学長挨拶・思想</div>
+      <h3>木下 勇人 学長</h3>
+      <p style="margin-top:10px"><strong style="color:var(--gold)">役割：</strong>3週間ご一緒した会員様への感謝・冒頭あいさつ、リブランド予告の意義・思想を語る。佐藤の③講義は<strong>補助</strong>として参画。</p>
+      <p style="margin-top:14px;color:rgba(255,255,255,.5);font-size:13px"><strong>キーワード：</strong>誰一人取り残さない／中小企業の最後の防波堤／最強のライセンス</p>
+    </div>
+    <div class="card gold">
+      <div class="num">AI統括ディレクター ＆ 特任講師</div>
+      <h3>佐藤 尚功</h3>
+      <p style="margin-top:10px"><strong style="color:var(--gold)">役割：</strong>本日の<strong>主たる講師</strong>。①最新事例 → ②クリエイティブWS → ③税理士先生の真価（マインドセット教育）→ ④オファーまで一貫して担当。<strong>体験を行動に変える</strong>導線を設計。</p>
+      <p style="margin-top:14px;color:rgba(255,255,255,.5);font-size:13px"><strong>キーワード：</strong>最新事例／自分ごと化／お金のお医者さん／一言で誰かを救う</p>
+    </div>
+    <div class="card">
+      <div class="num">講師</div>
+      <h3>佐々木 達也</h3>
+      <p style="margin-top:10px"><strong style="color:var(--gold)">役割：</strong>第1回・第2回を担当。3週間の<strong>会員様の変化</strong>と第2回宿題の成果発表をリアルに共有。</p>
+      <p style="margin-top:14px;color:rgba(255,255,255,.5);font-size:13px"><strong>キーワード：</strong>3週間の歩み／成功体験／一人ひとりの前進</p>
+    </div>
+    <div class="card">
+      <div class="num">MC ＆ 進行</div>
+      <h3>倉岡 ｜ 事務局</h3>
+      <p style="margin-top:10px"><strong style="color:var(--gold)">役割：</strong>オープニング／全体進行／タイムキープ／Zoomチャット質問拾い／リブランド説明案内／クロージング誘導。</p>
+      <p style="margin-top:14px;color:rgba(255,255,255,.5);font-size:13px"><strong>キーワード：</strong>会員様への配慮／場を温める／一人も置き去りにしない</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5: 会員様の変化 -->
+<section class="slide">
+  <div class="slide-num">05</div>
+  <span class="section-tag">Recap｜ 第1・2回担当 佐々木講師より</span>
+  <h2 class="title">3週間で、皆さまは<span class="gold">こう変わった</span></h2>
+  <div class="gold-line"></div>
+  <p class="lead">第1回「破壊と体験」、第2回「習慣と自走」を実際に担当した佐々木講師から、会員55名のSlack投稿・第2回宿題から見えた変化と成果をリアルに共有します。「自分も同じだった」と感じてもらう15分。</p>
+
+  <div class="arrow-row">
+    <div class="arrow-cell before">
+      <div class="lbl">BEFORE （3週間前）</div>
+      <div class="val">「怖い・難しい」<br>毎日2〜3時間が書類業務</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="arrow-cell after">
+      <div class="lbl">AFTER （今）</div>
+      <div class="val">「できた・面白い！」<br>AIで30分に短縮、対話・提案へ</div>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top:36px">
+    <div class="card">
+      <h3 style="color:var(--gold);font-size:16px">時間の変化</h3>
+      <p style="margin-top:8px">仕訳・突合・調査が約1/4に。生まれた時間を顧問先との対話・提案に投資できる土台ができた。</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--gold);font-size:16px">スキルの変化</h3>
+      <p style="margin-top:8px">「なんとなく使う」から「目的→情報→AI→確認」の4ステップで自走できる状態へ。</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--gold);font-size:16px">関係性の変化</h3>
+      <p style="margin-top:8px">Slackで日々の小さな成功体験が共有され、「一人も置き去りにしない」コミュニティの空気が醸成された。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6: 私たちが、変わるとき ─ コアメッセージ -->
+<section class="slide">
+  <div class="slide-num">06</div>
+  <span class="section-tag">Keynote｜ 佐藤尚功（＋ 木下学長 補助）</span>
+  <h2 class="title">私たちが、<span class="gold">変わるとき。</span><br><span style="font-size:22px;color:rgba(255,255,255,.7);font-weight:500">── "AIに変わられる前に。"</span></h2>
+  <div class="gold-line"></div>
+  <p class="lead">第1回・第2回から、お伝えしてきたメッセージです。<br>AIエージェントの進化は誰にも止められず、<strong style="color:var(--gold-light)">ホワイトカラーの大失業時代</strong>はもう目前。<strong>税理士業務も "今年中" にAI代替の波</strong>が現実水準に到達 ── そんな中、私たちは<strong style="color:var(--gold-light)">先に変わる</strong>道を選びます。</p>
+
+  <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch">
+
+    <div class="card" style="background:linear-gradient(160deg,rgba(216,92,92,.18),rgba(216,92,92,.04));border-color:rgba(216,92,92,.4);padding:18px 22px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#ff8a8a;font-weight:600;letter-spacing:.25em;text-transform:uppercase">CRISIS</span>
+        <span style="color:#ff8a8a;font-weight:700;font-size:15px">── 危機認識</span>
+      </div>
+      <ul style="list-style:none;margin:0">
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:#ff8a8a">▸</span><strong style="color:#ff8a8a">ホワイトカラー大失業時代</strong>の到来</li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:#ff8a8a">▸</span>税理士業務も <strong style="color:#ff8a8a">"今年中"にAI代替</strong> の現実水準に到達</li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:#ff8a8a">▸</span>顧問先の中小企業も <strong>AI格差</strong> で取り残される恐れ</li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:#ff8a8a">▸</span>これまでの延長線上では立ち行かない節目</li>
+      </ul>
+    </div>
+
+    <div class="card" style="background:linear-gradient(160deg,rgba(212,168,67,.22),rgba(212,168,67,.03));border-color:rgba(232,198,104,.5);padding:18px 22px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--gold-light);font-weight:600;letter-spacing:.25em;text-transform:uppercase">OUR ANSWER</span>
+        <span style="color:var(--gold-light);font-weight:700;font-size:15px">── 私たちの答え</span>
+      </div>
+      <ul style="list-style:none;margin:0">
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold-light)">▸</span>第1・2回で実感 ── <strong style="color:var(--gold-light)">AIで毎日2〜3時間 → 30分に</strong></li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold-light)">▸</span>浮いた時間を <strong>新たな価値創造</strong> へ転用</li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold-light)">▸</span>顧問先の未来を設計する <strong>真のパートナー</strong> へ</li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold-light)">▸</span>そして ── <strong style="color:var(--gold-light)">日本最大の財務コンサル集団</strong> へ</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- コアメッセージ（センターピース） -->
+  <div style="margin-top:18px;background:linear-gradient(135deg,rgba(212,168,67,.2),rgba(212,168,67,.04));border:1px solid var(--gold);border-radius:14px;padding:20px 30px;text-align:center;position:relative">
+    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#0F1E36;padding:0 14px;font-size:10px;letter-spacing:.3em;color:var(--gold);font-weight:700">CORE MESSAGE ── 第1・2回からのメッセージ</div>
+    <div style="font-family:'Noto Serif JP',serif;font-size:32px;font-weight:900;color:#fff;line-height:1.4;margin-top:6px">
+      "AIに変わられる前に、<br><span style="color:var(--gold-light)">私たちが変わる。</span>"
+    </div>
+  </div>
+</section>
+
+
+<!-- 7: 浮いた時間で、新たな価値を ─ 時間→ワークシフト橋渡し -->
+<section class="slide">
+  <div class="slide-num">07</div>
+  <span class="section-tag">Keynote｜ 浮いた時間が、新たな未来をつくる</span>
+  <h2 class="title">業務効率化は、<span style="color:rgba(255,255,255,.7);font-weight:500">ゴールじゃない。</span><br>新しい役割を担う <span class="gold">"準備"</span> です。</h2>
+  <div class="gold-line"></div>
+  <p class="lead">AIで時間を浮かせる ── それ自体が目的ではありません。<strong style="color:var(--gold-light)">浮いた時間で何をするか</strong>。それこそが、ワークシフトの本質です。先生方にはもう、一段高い場所が見えてきています。</p>
+
+  <!-- BEFORE → AFTER -->
+  <div style="margin-top:14px;display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch">
+
+    <div class="card" style="padding:16px 20px;background:linear-gradient(160deg,rgba(106,143,170,.22),rgba(106,143,170,.04));border-color:rgba(196,216,236,.4)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <span style="font-size:24px">⏱</span>
+        <div>
+          <div style="font-size:11px;color:var(--silver-pale);letter-spacing:.2em;font-weight:700">BEFORE</div>
+          <div style="font-size:16px;font-weight:700;color:#fff">時間が奪われる毎日</div>
+        </div>
+      </div>
+      <ul style="list-style:none;margin:0">
+        <li style="padding:4px 0 4px 16px;position:relative;font-size:12px;color:rgba(255,255,255,.78);line-height:1.55"><span style="position:absolute;left:0;color:var(--silver)">·</span>毎日2〜3時間の書類作成・調査業務</li>
+        <li style="padding:4px 0 4px 16px;position:relative;font-size:12px;color:rgba(255,255,255,.78);line-height:1.55"><span style="position:absolute;left:0;color:var(--silver)">·</span>記帳・申告に追われる単純作業</li>
+        <li style="padding:4px 0 4px 16px;position:relative;font-size:12px;color:rgba(255,255,255,.78);line-height:1.55"><span style="position:absolute;left:0;color:var(--silver)">·</span>顧問先と向き合う余裕がない</li>
+      </ul>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--gold);font-weight:900">→</div>
+
+    <div class="card gold" style="padding:16px 20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <span style="font-size:24px">✨</span>
+        <div>
+          <div style="font-size:11px;color:var(--gold-light);letter-spacing:.2em;font-weight:700">AFTER</div>
+          <div style="font-size:16px;font-weight:700;color:#fff">時間を生み出す自分</div>
+        </div>
+      </div>
+      <ul style="list-style:none;margin:0">
+        <li style="padding:4px 0 4px 16px;position:relative;font-size:12px;color:rgba(255,255,255,.85);line-height:1.55"><span style="position:absolute;left:0;color:var(--gold-light)">·</span>AIで <strong style="color:var(--gold-light)">毎日30分</strong> に短縮</li>
+        <li style="padding:4px 0 4px 16px;position:relative;font-size:12px;color:rgba(255,255,255,.85);line-height:1.55"><span style="position:absolute;left:0;color:var(--gold-light)">·</span>顧問先との対話・提案の時間が生まれる</li>
+        <li style="padding:4px 0 4px 16px;position:relative;font-size:12px;color:rgba(255,255,255,.85);line-height:1.55"><span style="position:absolute;left:0;color:var(--gold-light)">·</span>新しい収益柱の設計が見える</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- 浮いた時間で何をするか - 3つの方向性 -->
+  <div style="margin-top:14px">
+    <div style="font-size:12px;color:var(--gold-light);letter-spacing:.15em;font-weight:700;text-align:center;margin-bottom:8px">浮いた時間で、私たちはこうなっていく ──</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+      <div class="card" style="padding:12px 14px;text-align:center">
+        <div style="font-family:'Noto Serif JP',serif;font-size:24px;color:var(--gold-light);font-weight:900;line-height:1">①</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-top:4px">新たな収入源を得る</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:4px;line-height:1.5">節税・金融・AI研修・<br>財務コンサルなど</div>
+      </div>
+      <div class="card" style="padding:12px 14px;text-align:center">
+        <div style="font-family:'Noto Serif JP',serif;font-size:24px;color:var(--gold-light);font-weight:900;line-height:1">②</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-top:4px">付加価値の高いサービス</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:4px;line-height:1.5">顧問先の未来を<br>設計するパートナーへ</div>
+      </div>
+      <div class="card" style="padding:12px 14px;text-align:center">
+        <div style="font-family:'Noto Serif JP',serif;font-size:24px;color:var(--gold-light);font-weight:900;line-height:1">③</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-top:4px">中小企業を救う集団へ</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:4px;line-height:1.5">AI格差から日本中小企業を<br>守る防波堤に</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:14px;padding:14px 22px;background:linear-gradient(135deg,rgba(212,168,67,.15),rgba(212,168,67,.03));border:1px solid rgba(212,168,67,.4);border-radius:10px;text-align:center">
+    <div style="font-family:'Noto Serif JP',serif;font-size:16px;color:#fff;line-height:1.65">
+      <span style="color:var(--gold-light)">"税理士が稼げるから、企業が救われる。"</span><br>
+      "企業が救われるから、日本が動く。"
+    </div>
+    <div style="font-size:11px;color:rgba(255,255,255,.6);margin-top:6px">── 先生方のライセンスは、AI時代に最も社会的価値が高まる <strong style="color:var(--gold)">最強のライセンス</strong> です。</div>
+  </div>
+</section>
+
+<!-- 8: ワークシフト・ロードマップ全体像 -->
+<section class="slide">
+  <div class="slide-num">08</div>
+  <span class="section-tag">Workshift Roadmap｜ 私たちが共に歩む3つのフェーズ</span>
+  <h2 class="title">税理士先生の <span class="gold">"ワークシフト・ロードマップ"</span></h2>
+  <div class="gold-line"></div>
+  <p class="lead">
+    AI時代の中小企業を救えるのは先生方しかいません。<br>
+    でも、誰一人として最初から完璧な財務コンサルではありません。<strong style="color:var(--gold-light)">私たちはここから、3つのフェーズを共に歩みます。</strong>商品の話の前に、まずこの旅路をご共有させてください。
+  </p>
+
+  <div style="margin-top:14px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:6px;align-items:stretch">
+
+    <div class="card" style="background:linear-gradient(160deg,rgba(106,143,170,.3),rgba(106,143,170,.05));border-color:rgba(196,216,236,.4);padding:14px 16px;position:relative">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-family:'Noto Serif JP',serif;font-size:32px;font-weight:900;color:var(--silver);line-height:1">01</span>
+        <div>
+          <div style="font-size:10px;color:var(--silver);letter-spacing:.2em;font-weight:700">PHASE 1</div>
+          <div style="font-size:14px;font-weight:700;color:#fff">仲間と共にAIを学ぶ</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,.78);line-height:1.6">基本講座×グルコン／上級会員AI研究会／インフラ整備／Slack 相互サポート</div>
+      <div style="margin-top:10px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.2);font-size:11px;color:var(--silver-pale);font-weight:700">
+        📍 今、ここ
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--gold)">→</div>
+
+    <div class="card" style="background:linear-gradient(160deg,rgba(186,135,42,.28),rgba(186,135,42,.05));border-color:rgba(232,198,104,.5);padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-family:'Noto Serif JP',serif;font-size:32px;font-weight:900;color:var(--gold-light);line-height:1">02</span>
+        <div>
+          <div style="font-size:10px;color:var(--gold-light);letter-spacing:.2em;font-weight:700">PHASE 2</div>
+          <div style="font-size:14px;font-weight:700;color:#fff">商材販売を開始する</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,.78);line-height:1.6">繋ぐだけでOK／学長・上級会員と案件同伴／ワークシフト講座でノウハウ習得</div>
+      <div style="margin-top:10px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.2);font-size:11px;color:var(--gold-light);font-weight:700">
+        AIで生まれた時間を「稼ぐ」に転用
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--gold)">→</div>
+
+    <div class="card gold" style="padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-family:'Noto Serif JP',serif;font-size:32px;font-weight:900;color:var(--gold-light);line-height:1">03</span>
+        <div>
+          <div style="font-size:10px;color:var(--gold-light);letter-spacing:.2em;font-weight:700">PHASE 3</div>
+          <div style="font-size:14px;font-weight:700;color:#fff">財務コンサルとして活躍</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,.78);line-height:1.6">傾聴＞提案＞助言伴走／月次継続フィー＋紹介ネットワーク／後進指導</div>
+      <div style="margin-top:10px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.2);font-size:11px;color:var(--gold-light);font-weight:700">
+        中小企業の経営の主治医へ
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:18px;text-align:center;font-family:'Noto Serif JP',serif;font-size:18px;color:#fff;line-height:1.7">
+    <span style="color:var(--gold-light)">── 一人では、たどり着けない場所へ。</span><br>
+    <strong>皆で、共に進んでいく。</strong>
+  </div>
+</section>
+
+
+<!-- 9: Phase 1 - 仲間と共にAIを身に付ける -->
+<section class="slide">
+  <div class="slide-num">09</div>
+  <span class="section-tag">Phase 1｜ 今、私たちが立っている場所</span>
+  <h2 class="title">仲間と共に、<span class="gold">AIを身に付ける</span></h2>
+  <div class="gold-line"></div>
+  <p class="lead">
+    いま、先生方の多くがAIを業務に活用するのに必死です。<strong style="color:var(--gold-light)">それで、まったく問題ありません。</strong>むしろ、ここに <strong>もっとも厚いサポート</strong> を用意しています。一人で抱え込まず、仲間と一緒に登っていく ── それがワークシフトサロンの原点です。
+  </p>
+
+  <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+    <div class="card" style="padding:12px 16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--silver);color:#0F1E36;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:900">01</span>
+        <span style="color:var(--silver-pale);font-size:11px;font-weight:700;letter-spacing:.1em">基礎</span>
+      </div>
+      <h3 style="font-size:15px;line-height:1.4">基本講座（動画）× 月次グルコン</h3>
+      <p style="margin-top:5px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.55">いつでも見れる動画で復習自由。月次グルコンで「分からない」をその場で解消。</p>
+    </div>
+
+    <div class="card" style="padding:12px 16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--silver);color:#0F1E36;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:900">02</span>
+        <span style="color:var(--silver-pale);font-size:11px;font-weight:700;letter-spacing:.1em">研究</span>
+      </div>
+      <h3 style="font-size:15px;line-height:1.4">上級会員リードのAI研究会</h3>
+      <p style="margin-top:5px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.55">独自AIツール開発も視野に。先輩税理士の生きた知見が共有される、サロンならではの場。</p>
+    </div>
+
+    <div class="card" style="padding:12px 16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--silver);color:#0F1E36;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:900">03</span>
+        <span style="color:var(--silver-pale);font-size:11px;font-weight:700;letter-spacing:.1em">インフラ</span>
+      </div>
+      <h3 style="font-size:15px;line-height:1.4">事務局 × 上級会員 共同インフラ整備</h3>
+      <p style="margin-top:5px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.55">Notion／Google Workspace／必殺仕訳人／AIキノシタくん／プロンプトツール。<strong style="color:var(--silver-pale)">業務80%削減</strong>を見据えた事務所基盤。</p>
+    </div>
+
+    <div class="card" style="padding:12px 16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--silver);color:#0F1E36;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:900">04</span>
+        <span style="color:var(--silver-pale);font-size:11px;font-weight:700;letter-spacing:.1em">交流</span>
+      </div>
+      <h3 style="font-size:15px;line-height:1.4">Slackで活発な相互サポート</h3>
+      <p style="margin-top:5px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.55">「こんなこと聞いていいの？」は不要。会員同士・事務局・木下学長・佐藤・佐々木・上級会員、<strong>全員で支え合う空気</strong>。</p>
+    </div>
+
+  </div>
+
+  <div style="margin-top:14px;background:linear-gradient(135deg,rgba(212,168,67,.13),rgba(212,168,67,.02));border:1px solid rgba(212,168,67,.4);border-radius:10px;padding:12px 22px;text-align:center">
+    <span style="font-size:11px;letter-spacing:.2em;color:var(--gold);font-weight:700;display:block;margin-bottom:4px">PHASE 1 GOAL</span>
+    <strong style="font-size:16px;color:#fff;font-family:'Noto Serif JP',serif">AIが、先生の仕事の頼れる "相棒" になる。</strong>
+    <span style="display:block;margin-top:4px;font-size:11px;color:rgba(255,255,255,.65)">そしてここから、AIで生まれた時間を「稼ぐ」に転用するフェーズ2へ ──</span>
+  </div>
+</section>
+
+
+<!-- 10: Phase 2 & 3 - ワークシフトを実装する -->
+<section class="slide">
+  <div class="slide-num">10</div>
+  <span class="section-tag">Phase 2 → Phase 3｜ ワークシフトを実装する</span>
+  <h2 class="title">"繋ぐだけ" から始めて、<span class="gold">最高の財務パートナー</span>へ</h2>
+  <div class="gold-line"></div>
+  <p class="lead">
+    AIが使えるようになってきたら、いよいよワークシフトの実装が始まります。<strong style="color:var(--gold-light)">最初は完璧でなくて構いません。</strong> "繋ぐだけ" でOK。学長や上級会員と案件同伴を重ねながら、自然と財務コンサルとして独立できる状態へ。<strong>知識はAIで取り込める／経験は買えない／だから団体戦で行く。</strong>
+  </p>
+
+  <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+
+    <div class="card" style="background:linear-gradient(160deg,rgba(186,135,42,.28),rgba(186,135,42,.05));border-color:rgba(232,198,104,.5);padding:18px 20px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+        <span style="font-family:'Noto Serif JP',serif;font-size:36px;font-weight:900;color:var(--gold-light);line-height:1">02</span>
+        <div>
+          <div style="font-size:11px;color:var(--gold-light);letter-spacing:.2em;font-weight:700">PHASE 2</div>
+          <div style="font-size:18px;font-weight:700;color:#fff">商材販売を開始する</div>
+        </div>
+      </div>
+      <ul style="list-style:none;margin:0">
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span>営業ができなくても大丈夫。<strong style="color:var(--gold-light)">「繋ぐ」だけでフィー発生</strong></li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span>木下学長と相続コンサル案件に <strong>同伴</strong></li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span>上級会員と財務コンサル案件に <strong>参画</strong></li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span><strong style="color:var(--gold-light)">ワークシフト講座</strong>で売り方ノウハウを蓄積（佐藤特任講師）</li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span>AI研修・節税・金融商品の <strong>4ジャンル</strong> を提案できる体制</li>
+      </ul>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.2);font-size:12px;color:var(--gold-light);font-family:'Noto Serif JP',serif">
+        ── 経験は同伴の中で身体に染み込んでいく
+      </div>
+    </div>
+
+    <div class="card gold" style="padding:18px 20px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+        <span style="font-family:'Noto Serif JP',serif;font-size:36px;font-weight:900;color:var(--gold-light);line-height:1">03</span>
+        <div>
+          <div style="font-size:11px;color:var(--gold-light);letter-spacing:.2em;font-weight:700">PHASE 3</div>
+          <div style="font-size:18px;font-weight:700;color:#fff">財務コンサルとして活躍</div>
+        </div>
+      </div>
+      <ul style="list-style:none;margin:0">
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span>自身で <strong style="color:var(--gold-light)">傾聴 ＞ 提案 ＞ 助言 ＞ 伴走</strong> を実行できる</li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span>顧問先の <strong style="color:var(--gold-light)">経営の主治医</strong> として独自ポジション</li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span>月次継続フィー＋紹介ネットワークで <strong style="color:var(--gold-light)">安定収益</strong></li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span>サロン上級会員として <strong>後進を導く</strong> 立場へ</li>
+        <li style="padding:5px 0 5px 18px;position:relative;font-size:13px;color:rgba(255,255,255,.85);line-height:1.65"><span style="position:absolute;left:0;color:var(--gold)">▸</span>独自AIツール開発も視野に</li>
+      </ul>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.2);font-size:12px;color:var(--gold-light);font-family:'Noto Serif JP',serif">
+        ── ひとり、また一人、中小企業が救われていく
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:14px;background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.04));border:1px solid var(--gold);border-radius:10px;padding:14px 22px;text-align:center">
+    <strong style="font-size:18px;color:#fff;font-family:'Noto Serif JP',serif">皆で、共に進んでいく。</strong>
+    <span style="display:block;margin-top:4px;font-size:12px;color:rgba(255,255,255,.85);font-family:'Noto Sans JP',sans-serif">それが、税理士ワークシフトサロンのお約束です。</span>
+  </div>
+</section>
+
+
+<!-- 11: "繋ぐだけ"から始める4つの提案 -->
+<section class="slide">
+  <div class="slide-num">11</div>
+  <span class="section-tag">Reference｜ "繋ぐだけ"から始める4つの提案</span>
+  <h2 class="title">「自分は専門家じゃない」は、もう要らない。<br><span class="gold">"繋ぐだけ"</span>から始められる、4つの提案。</h2>
+  <div class="gold-line"></div>
+  <p class="lead"><strong style="color:var(--gold-light)">知識はAIでいくらでも取り込める時代。経験は買えない。</strong>だから、団体戦でいきます ── 情報も、苦楽も、報酬も共にする仲間と一緒に。「繋ぐだけ」でスタート、案件同伴で学び、いつか自身が中小企業の最高の財務パートナーへ。サロンはその全行程に伴走します。</p>
+
+  <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+    <div class="card" style="background:linear-gradient(135deg,rgba(186,135,42,.28),rgba(186,135,42,.05));border-color:rgba(232,198,104,.5);padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--gold);color:#0F1E36;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:900">①</span>
+        <span style="color:var(--gold-light);font-size:11px;font-weight:700;letter-spacing:.1em">学長と一緒に売る</span>
+      </div>
+      <h3 style="font-size:16px;line-height:1.4">木下学長の<strong style="color:var(--gold-light)">相続コンサル</strong>を団体戦で売る</h3>
+      <p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.78);line-height:1.55">案件同伴で学びながら、または木下学長のサポートを受けながら提案。フォローアップは学長が担うので、先生は<strong>「繋ぐだけ」</strong>からスタートできる。</p>
+      <p style="margin-top:6px;font-size:11px;color:var(--gold-light);font-weight:700">紹介フィー：￥XXX <span style="color:rgba(255,255,255,.5);font-weight:400">（詳細は説明会にて）</span></p>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,rgba(106,143,170,.28),rgba(106,143,170,.05));border-color:rgba(196,216,236,.4);padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--silver);color:#0F1E36;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:900">②</span>
+        <span style="color:var(--silver-pale);font-size:11px;font-weight:700;letter-spacing:.1em">声かけるだけ</span>
+      </div>
+      <h3 style="font-size:16px;line-height:1.4"><strong style="color:var(--silver-pale)">AI研修</strong>で顧問先のIT化を支援</h3>
+      <p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.78);line-height:1.55">カクヤクAIX／ウリアゲAIX。<strong>他社とは違う定着率と結果のコミット</strong>、サロン運営側で自社実体験済み。助成金活用で<strong>実質0円〜10万円</strong>導入。声かけるだけで成立。</p>
+      <p style="margin-top:6px;font-size:11px;color:var(--silver-pale);font-weight:700">紹介フィー：￥9万〜150万円超／案件 <span style="color:rgba(255,255,255,.5);font-weight:400">（受講人数による）</span></p>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,rgba(186,135,42,.28),rgba(186,135,42,.05));border-color:rgba(232,198,104,.5);padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--gold);color:#0F1E36;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:900">③</span>
+        <span style="color:var(--gold-light);font-size:11px;font-weight:700;letter-spacing:.1em">ほぼMAX報酬ラダー</span>
+      </div>
+      <h3 style="font-size:16px;line-height:1.4">海外×国内の<strong style="color:var(--gold-light)">金融商品</strong>を提案</h3>
+      <p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.78);line-height:1.55">即時償却・キャプティブ保険・海外PB・サンライフ・ドミニオン等。<strong>難しいスキームの理解は本部が伴走</strong>。先生は紹介者として参画。</p>
+      <p style="margin-top:6px;font-size:11px;color:var(--gold-light);font-weight:700">紹介フィー：￥XXX <span style="color:rgba(255,255,255,.5);font-weight:400">（商品により変動・説明会で確定）</span></p>
+    </div>
+
+    <div class="card gold" style="padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--gold-light);color:#0F1E36;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:900">④</span>
+        <span style="color:var(--gold-light);font-size:11px;font-weight:700;letter-spacing:.1em">トスアップ参画</span>
+      </div>
+      <h3 style="font-size:16px;line-height:1.4"><strong style="color:var(--gold-light)">財務コンサル</strong>を上級会員へトスアップ</h3>
+      <p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.78);line-height:1.55">サロン上級会員（実績ある先輩税理士）へ案件をトスアップしながら案件参画。<strong>同伴することで自身も学び</strong>、いずれ独立してコンサルできる状態へ。</p>
+      <p style="margin-top:6px;font-size:11px;color:var(--gold-light);font-weight:700">紹介フィー：￥XXX ＋ 月次継続フィー <span style="color:rgba(255,255,255,.5);font-weight:400">（説明会で詳細）</span></p>
+    </div>
+
+  </div>
+
+  <!-- 3段階の成長ストーリー -->
+  <div style="margin-top:14px;background:linear-gradient(135deg,rgba(212,168,67,.13),rgba(212,168,67,.02));border:1px solid rgba(212,168,67,.4);border-radius:10px;padding:12px 18px">
+    <div style="display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin-bottom:8px">
+      <span style="width:14px;height:1px;background:var(--gold)"></span>
+      GROWTH STAGES — 3段階で「最高の財務パートナー」へ
+      <span style="flex:1;height:1px;background:rgba(212,168,67,.3)"></span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:8px">
+      <div style="text-align:center">
+        <div style="font-family:'Noto Serif JP',serif;font-size:13px;color:var(--gold-light);font-weight:700">STEP 1</div>
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-top:2px">「繋ぐ」だけ</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.65);margin-top:2px">困っている顧問先に一言。<br>紹介フィー発生</div>
+      </div>
+      <div style="font-size:18px;color:var(--gold)">→</div>
+      <div style="text-align:center">
+        <div style="font-family:'Noto Serif JP',serif;font-size:13px;color:var(--gold-light);font-weight:700">STEP 2</div>
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-top:2px">案件同伴で学習</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.65);margin-top:2px">学長・上級会員と並走。<br>「傾聴 ＞ 提案 ＞ 助言伴走」を体得</div>
+      </div>
+      <div style="font-size:18px;color:var(--gold)">→</div>
+      <div style="text-align:center">
+        <div style="font-family:'Noto Serif JP',serif;font-size:13px;color:var(--gold-light);font-weight:700">STEP 3</div>
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-top:2px">最高の財務パートナーへ</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.65);margin-top:2px">中小企業の経営の主治医として独立。<br>月次継続フィー＋紹介ネットワーク</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;padding:14px 24px;background:linear-gradient(135deg,rgba(212,168,67,.15),rgba(212,168,67,.03));border:1px solid var(--gold);border-radius:10px;text-align:center">
+    <div style="font-family:'Noto Serif JP',serif;font-size:15px;color:var(--gold-light);font-weight:700;margin-bottom:4px">団体戦で。情報も、苦楽も、報酬も、共にしながら。</div>
+    <div style="font-family:'Noto Serif JP',serif;font-size:18px;color:#fff;font-weight:900;line-height:1.4">私たちは、<span style="color:var(--gold-light)">日本最大の財務コンサル集団</span> になっていく。</div>
+  </div>
+</section>
+
+<!-- 12: ★リブランド発表★ -->
+<section class="slide" style="justify-content:center;align-items:center">
+  <div class="slide-num">12</div>
+  <span class="section-tag" style="text-align:center;display:block;margin-bottom:18px">★ Important Announcement ★</span>
+  <h2 class="title" style="text-align:center;width:100%">サロンの<span class="gold">新しい姿</span></h2>
+  <div class="gold-line" style="margin-left:auto;margin-right:auto"></div>
+
+  <div class="rebrand-box">
+    <div class="rb-old">税理士AI大学サロン</div>
+    <div class="rb-arrow">▼</div>
+    <div class="rb-new">税理士ワークシフトサロン</div>
+    <div class="rb-tag" style="display:flex;justify-content:center;gap:30px;flex-wrap:wrap">
+      <span><strong style="color:var(--gold-light)">2026.6.1</strong> プレシフト開始（移行期間）</span>
+      <span style="color:rgba(255,255,255,.5)">→</span>
+      <span><strong style="color:var(--gold-light)">2026.7.1</strong> 本格始動</span>
+    </div>
+  </div>
+
+  <p style="text-align:center;max-width:780px;margin:30px auto 0;font-size:16px;line-height:1.9;color:rgba(255,255,255,.85)">
+    「AIを学ぶ場」から、「<strong style="color:var(--gold)">日本の中小企業を救う税理士の実践共同体</strong>」へ。<br>
+    名前を変えるのは、私たちの提供価値が次のステージに進んだからです。
+  </p>
+
+  <p style="text-align:center;max-width:780px;margin:18px auto 0;padding:14px 20px;background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.4);border-radius:8px;font-size:14px;line-height:1.8;color:rgba(255,255,255,.85)">
+    ※ ロゴ・新会費体系・新サービス詳細は、<strong style="color:var(--gold)">5月後半のリブランド説明会（仮）にて確定発表</strong>します。<br>本日は方針のご共有まで。
+  </p>
+</section>
+
+<!-- 13: なぜリブランドするのか -->
+<section class="slide">
+  <div class="slide-num">13</div>
+  <span class="section-tag">Why Rebrand</span>
+  <h2 class="title">なぜ、<span class="gold">名前を変える</span>のか</h2>
+  <div class="gold-line"></div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="num">Reason 01</div>
+      <h3>提供価値が「学習」から「変革」へ拡張した</h3>
+      <p>AIを学ぶだけでなく、AIを起点に税理士のあり方そのものを設計し直す ── つまりワークシフト ── がコミュニティの本質的価値になった。名前がその実態に追いつく必要がある。</p>
+    </div>
+    <div class="card">
+      <div class="num">Reason 02</div>
+      <h3>「大学」という構造から、実践共同体へ</h3>
+      <p>「大学」は教える側／教わる側の構造を含意する。実際のサロンは<strong>横の繋がりと共同実践</strong>が価値の源泉。サロンという名前を残し、実践の本質を名前に込める。</p>
+    </div>
+    <div class="card">
+      <div class="num">Reason 03</div>
+      <h3>第2期生・外部展開を見据えた設計</h3>
+      <p>今後、税理士ネットワークの外側へも価値を届けるため、業界で通じる<strong>普遍性のある名称</strong>へ。「ワークシフト」は税理士・士業を超えて意味が通る言葉。</p>
+    </div>
+    <div class="card">
+      <div class="num">Reason 04</div>
+      <h3>会員様の体験には影響を与えない</h3>
+      <p>名前は変わるが、<strong>運営思想・主要メンバー・コミュニティの空気感</strong>は何一つ変わらない。むしろ既存会員様には特別な配慮を用意。詳細は次のスライドにて。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 14: 既存会員様への約束 -->
+<section class="slide">
+  <div class="slide-num">14</div>
+  <span class="section-tag">Member Promise</span>
+  <h2 class="title">既存会員様への<span class="gold">5つのお約束</span></h2>
+  <div class="gold-line"></div>
+  <p class="lead">名前は変わりますが、皆さまへの感謝は何一つ変わりません。むしろ、第1期からご一緒いただいている皆さまにこそ、最大の特典をご用意しています。</p>
+
+  <div style="margin-top:10px">
+    <div class="check"><div class="icon">✓</div><div class="txt"><strong>会費は据え置き</strong>。月額3万円（紹介割引価格・税別）の優遇を継続します。リブランド後の通常価格5万円ではなく、<strong style="color:var(--gold)">最初に提示した3万円のまま</strong>でご継続いただけます。</div></div>
+    <div class="check"><div class="icon">✓</div><div class="txt"><strong>運営メンバーは継続</strong>。木下学長、AI統括、倉岡をはじめ、皆さまをサポートする体制は変わりません。</div></div>
+    <div class="check"><div class="icon">✓</div><div class="txt"><strong>Slackコミュニティ・Notionは引き継ぎ</strong>。3週間で築いた成功体験・ノウハウ・関係性はすべて新サロンに移行します。</div></div>
+    <div class="check"><div class="icon">✓</div><div class="txt"><strong>提供サービスは拡張のみ</strong>。AI必殺仕訳人・AIキノシタくん・週次動画配信に加え、<strong>ワークシフト講座</strong>と<strong>パートナープログラム接続</strong>が追加されます。減るものはありません。</div></div>
+    <div class="check"><div class="icon">✓</div><div class="txt"><strong>切替はスムーズに</strong>。会員様の手続きは原則不要。新契約書の再締結のみ事務局からご案内します（5月末〜6月初旬）。</div></div>
+  </div>
+</section>
+
+<!-- 15: 5/25 詳細説明会 -->
+<section class="slide">
+  <div class="slide-num">15</div>
+  <span class="section-tag">Roadmap｜ 今後の活動の流れ</span>
+  <h2 class="title"><span class="gold">3段階</span>で進む、これからのサロン</h2>
+  <div class="gold-line"></div>
+  <p class="lead">いきなり全部が変わるわけではありません。<strong>5月後半に説明会、6/1から移行期間（プレシフト）、7/1に本格始動</strong>という3段階で、皆さまにご無理のない移行をしていきます。</p>
+
+  <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+    <div class="card" style="background:linear-gradient(135deg,rgba(106,143,170,.25),rgba(106,143,170,.05));border-color:rgba(196,216,236,.4)">
+      <div class="num" style="color:var(--silver)">STAGE 1｜ 5月後半</div>
+      <h3>準備・説明期間</h3>
+      <ul style="list-style:none;margin-top:10px">
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--silver)">▸</span>会員向け<strong>リブランド説明会</strong>（仮：5/25）</li>
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--silver)">▸</span>新規向け<strong>第2期生募集</strong>説明会＆セミナーの告知開始</li>
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--silver)">▸</span>新会費・新サービスの詳細確定</li>
+      </ul>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,rgba(186,135,42,.3),rgba(186,135,42,.05));border-color:rgba(232,198,104,.5)">
+      <div class="num" style="color:var(--gold)">STAGE 2｜ 6/1〜（移行）</div>
+      <h3>プレシフト期間</h3>
+      <ul style="list-style:none;margin-top:10px">
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--gold)">▸</span>サロン名称を<strong>「税理士ワークシフトサロン」</strong>へ変更</li>
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--gold)">▸</span>第1期生向け<strong>ワークシフト講座</strong>スタート</li>
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--gold)">▸</span>第2期生 募集説明会＆セミナー実施</li>
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--gold)">▸</span>新規入会者の順次オンボーディング</li>
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--gold)">▸</span>6月下旬〜7月上旬に<strong>リブランド記念オフ会</strong></li>
+      </ul>
+    </div>
+    <div class="card gold">
+      <div class="num">STAGE 3｜ 7/1〜（本格始動）</div>
+      <h3>新サロン正式運用</h3>
+      <ul style="list-style:none;margin-top:10px">
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--gold)">▸</span>新サロンとしての<strong>正式運用開始</strong></li>
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--gold)">▸</span>第1期生の<strong>ワークシフト営業活動</strong>開始（一言オファーから）</li>
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--gold)">▸</span>第2期生のサロン活動開始</li>
+        <li style="padding:5px 0;padding-left:18px;position:relative;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78)"><span style="position:absolute;left:0;color:var(--gold)">▸</span>カクヤクAIX 横展開（詳細は別途）</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="margin-top:24px;padding:14px 20px;background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.3);border-radius:8px;font-size:14px;line-height:1.8;color:rgba(255,255,255,.85);text-align:center">
+    ※ 各イベントの正確な日程・お申込み方法は、<strong style="color:var(--gold)">5/15頃までに Slack・メール・LINE で順次確定告知</strong>します。<br>本日の内容で疑問点がある方は、Slackの専用チャンネルへお気軽にどうぞ。
+  </p>
+</section>
+
+<!-- 16: Q&A -->
+<section class="slide">
+  <div class="slide-num">16</div>
+  <span class="section-tag">Live Q&A ｜ 20分</span>
+  <h2 class="title">皆さまの<span class="gold">質問</span>に、率直にお答えします</h2>
+  <div class="gold-line"></div>
+  <p class="lead">事前にSlack #q-session3 で集めた質問と、当日Zoomチャットでいただく質問を中心に、登壇4名で率直にお答えします。回答は<strong>「迷わせない」「具体的に」「率直に」</strong>を原則とします。</p>
+
+  <h3 style="margin-top:20px;color:var(--gold);font-size:18px">想定Q&A（3つの軸で準備）</h3>
+
+  <div class="grid-3" style="margin-top:14px">
+    <div class="card">
+      <div class="num"><span class="qa-tag">A</span> リブランド系</div>
+      <p style="margin-top:8px;font-size:13px">・なぜ「ワークシフト」？<br>・私の会費は変わる？<br>・既存ツールは使える？<br>・退会したらどうなる？<br>・新しい契約書はいつ？</p>
+    </div>
+    <div class="card">
+      <div class="num"><span class="qa-tag">B</span> 収益・商材系</div>
+      <p style="margin-top:8px;font-size:13px">・節税商材って具体的に？<br>・パートナー登録は強制？<br>・自分の知識で大丈夫？<br>・顧問先に提案するハードル<br>・収益はどのくらい見込める？</p>
+    </div>
+    <div class="card">
+      <div class="num"><span class="qa-tag">C</span> 学習・継続系</div>
+      <p style="margin-top:8px;font-size:13px">・第3回で終わり？<br>・ワークシフト講座いつ？<br>・忙しくて参加できない場合<br>・スタッフへの展開は？<br>・第2期生との関係は？</p>
+    </div>
+  </div>
+
+  <p style="margin-top:24px;padding:18px;background:rgba(212,168,67,.1);border-radius:8px;font-size:14px;line-height:1.7"><strong style="color:var(--gold)">事務局の役割：</strong>Zoomチャットを倉岡が拾い、優先度をつけて木下学長・佐藤尚功にパスします。すべてに当日回答できなくても、後日Notionに「Q&Aまとめ」として全件回答を投稿します。</p>
+</section>
+
+<!-- 17: クロージング -->
+<section class="slide slide-hero">
+  <div class="slide-num">17</div>
+  <div class="badge-top">CLOSING</div>
+  <h2 style="font-family:'Noto Serif JP',serif;font-size:54px;font-weight:900;line-height:1.4;text-align:center;margin-bottom:30px">ここで終わりじゃない。<br><span style="color:var(--gold)">ここからが始まり。</span></h2>
+  <p style="max-width:780px;text-align:center;font-size:17px;line-height:2;color:rgba(255,255,255,.85)">
+    3週間の特別集中講座を経て、皆さまは「AIが使える」状態になりました。<br>
+    これは、ワークシフトの<strong style="color:var(--gold)">スタート地点</strong>に立てた、ということです。<br><br>
+    新しい税理士ワークシフトサロンで、皆さまの<strong style="color:var(--gold)">事務所の未来</strong>を、ご一緒に設計していきましょう。
+  </p>
+  <div style="margin-top:50px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+    <div style="padding:14px 26px;background:rgba(212,168,67,.18);border:1px solid var(--gold);border-radius:30px;color:var(--gold);font-weight:700">5/25 詳細説明会で、お会いしましょう</div>
+  </div>
+</section>
+
+<!-- 18: 事務局運用メモ -->
+<section class="slide light">
+  <div class="slide-num" style="color:rgba(13,26,46,.4)">18</div>
+  <span class="section-tag" style="color:var(--gold-deep)">Internal Operation Memo</span>
+  <h2 class="title" style="color:var(--text)">運用<span style="color:var(--gold-deep)">チェックリスト</span>（内部用）</h2>
+  <div class="gold-line"></div>
+
+  <div class="card" style="background:#FFF8E8;border-color:rgba(232,155,69,.5);margin-bottom:18px">
+    <h3 style="color:#B86A1F;font-size:15px">▲ 現状認識：仮で走り切るセミナー</h3>
+    <p style="color:rgba(13,26,46,.8);font-size:13px;margin-top:6px;line-height:1.7">4月の繁忙期影響により、登壇者間の事前打ち合わせが十分にできていません。<strong>5/12は「リブランド方針の予告」と「マインドセット転換」までに留め、詳細確定はセミナー後の3者打ち合わせ＋次回月次セミナー（仮：5/25）で実施</strong>します。会員様には誠実に「仮」の状態であることをお伝えし、確定情報は順次共有することで信頼を維持します。</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="background:#fff;border-color:rgba(212,168,67,.3)">
+      <h3 style="color:var(--gold-deep)">前日まで（〜5/11）— 最低ライン</h3>
+      <ul class="col-list" style="margin-top:10px">
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">佐々木講師：第1・2回振り返りスライド／Slack抜粋を準備</li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">佐藤講師：最新事例ネタ／クリエイティブWS設計／オファー文言ドラフト</li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">木下学長：マインドセット教育のキーメッセージ確認</li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">倉岡：<strong>リブランド予告・今後の活動の流れスライドの作成</strong></li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">Slack #q-session3 で事前質問を募集（5/8公開推奨）</li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">既存会員55名へリマインドDM／メール送付（5/9〜10）</li>
+      </ul>
+    </div>
+    <div class="card" style="background:#fff;border-color:rgba(212,168,67,.3)">
+      <h3 style="color:var(--gold-deep)">当日（5/12）</h3>
+      <ul class="col-list" style="margin-top:10px">
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">17:30 入室・配信チェック・登壇者4名最終ブリーフ</li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">17:55 受講者入室開始、BGM／待機画面</li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">18:00 オープニング、録画ON、Zoomチャット監視開始</li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">19:05 リブランド予告のタイミングで<strong>Slack #announcement に予告投稿</strong></li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">仮表記の箇所では<strong>「現時点では仮ですが、◯◯の予定です」</strong>と必ず明示</li>
+        <li style="border-color:rgba(13,26,46,.1);color:var(--text)">20:00 クロージング後、アーカイブ案内＋アンケートURL投稿</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="background:#fff;border-color:rgba(212,168,67,.3);margin-top:18px">
+    <h3 style="color:var(--gold-deep)">翌日以降（5/13〜）— セミナー後アクション</h3>
+    <ul class="col-list" style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:0 24px">
+      <li style="border-color:rgba(13,26,46,.1);color:var(--text)"><strong>5/13〜15：木下学長＋佐藤尚功＋倉岡 3者打ち合わせ</strong>（リブランド詳細・説明会構成確定）</li>
+      <li style="border-color:rgba(13,26,46,.1);color:var(--text)"><strong>5/14前後：木下学長×毛受先生</strong>（事例利用・継続関与の確認）</li>
+      <li style="border-color:rgba(13,26,46,.1);color:var(--text)">アーカイブ動画をNotion／メールで配信（5/13中）</li>
+      <li style="border-color:rgba(13,26,46,.1);color:var(--text)">Q&Aまとめ記事を作成・全会員へ配信（5/15目処）</li>
+      <li style="border-color:rgba(13,26,46,.1);color:var(--text)">退会希望・不安の声には個別フォロー優先</li>
+      <li style="border-color:rgba(13,26,46,.1);color:var(--text)">リブランド説明会・第2期生告知の確定通知（5/15目処）</li>
+      <li style="border-color:rgba(13,26,46,.1);color:var(--text)">アンケート回答集計、リブランド計画書v4へ反映</li>
+      <li style="border-color:rgba(13,26,46,.1);color:var(--text)">レディング社・顧問へ進捗報告（5/14目処）</li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:#FFF8E8;border-color:rgba(232,155,69,.5);margin-top:18px">
+    <h3 style="color:#B86A1F;font-size:15px">【参考】リブランド実施スケジュール（3段階）</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:10px">
+      <div>
+        <div style="font-weight:700;color:#B86A1F;font-size:13px">5月後半｜ 準備・説明</div>
+        <div style="font-size:12px;color:rgba(13,26,46,.75);margin-top:4px;line-height:1.6">・会員向けリブランド説明会（仮：5/25）<br>・第2期生募集の告知開始</div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:#B86A1F;font-size:13px">6/1〜｜ プレシフト（移行）</div>
+        <div style="font-size:12px;color:rgba(13,26,46,.75);margin-top:4px;line-height:1.6">・サロン名称変更<br>・第1期向けワークシフト講座開始<br>・第2期生説明会＆オンボーディング<br>・6月下旬〜7月上旬：記念オフ会</div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:#B86A1F;font-size:13px">7/1〜｜ 本格始動</div>
+        <div style="font-size:12px;color:rgba(13,26,46,.75);margin-top:4px;line-height:1.6">・新サロン正式運用<br>・第1期生 営業活動開始<br>・第2期生 サロン活動開始<br>・カクヤクAIX 横展開（別途詳細）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- nav -->
+<div class="nav">
+  <button id="prev" title="前へ (←)">‹</button>
+  <div class="counter"><span id="cur">1</span> / <span id="total">14</span></div>
+  <button id="next" title="次へ (→)">›</button>
+</div>
+
+<script>
+  const slides=document.querySelectorAll('.slide');
+  const total=slides.length;
+  let cur=0;
+  document.getElementById('total').textContent=total;
+  function go(i){
+    cur=Math.max(0,Math.min(total-1,i));
+    slides.forEach((s,idx)=>s.classList.toggle('active',idx===cur));
+    document.getElementById('cur').textContent=cur+1;
+    document.getElementById('progress').style.width=((cur+1)/total*100)+'%';
+  }
+  document.getElementById('prev').onclick=()=>go(cur-1);
+  document.getElementById('next').onclick=()=>go(cur+1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')go(cur+1);
+    else if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);
+    else if(e.key==='Home')go(0);
+    else if(e.key==='End')go(total-1);
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement)document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+  go(0);
+</script>
+</body>
+</html>
